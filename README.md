@@ -20,4 +20,6 @@ You can:
 * start a new simulation by pressing N
 * quit by pressing Q
 
-<div style = "text-align: center"> ![Screenshot](./screeshots/ss.gif) </div>
+<p align="center">
+  <img src="./screeshots/ss.gif">
+</p>
