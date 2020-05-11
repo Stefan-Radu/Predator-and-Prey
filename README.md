@@ -1,25 +1,52 @@
-### Celular Automaton - Predator & Prey
+# Predator & Prey Cellular Automaton
 
-The final goal of this automaton is to simulate a world inhabited by two types of creatures:
-* predators - displayed with red
-* prey - displayed with green
+Simulating the life of *predators* and *prey*.
 
-At each moment, every creature moves in a random direction.
+## About
 
-Prey is rewarded for staying alive. Thus, at each moment its health rises by a certain amount. If it reached a certain treshold, the prey reproduces.
-
-Predators are rewarded for hunting. They lose health at each moment, unless they encouter prey. In that case, the predator heals by consuming the prey and a new predator is born.
-
-After some time, illness starts spreading and all creatures perish into nothing. 
-* prey becomes orange
-* predators become purple
-
-All the creatures eventually die and the game ends.
-
-You can:
-* start a new simulation by pressing N
-* quit by pressing Q
+The goal of this automaton is to simulate a world inhabited by two types of creatures predators (displayed with red) and prey (displayed with green).
 
 <p align="center">
   <img src="./screeshots/ss.gif">
 </p>
+
+At each moment, every creature moves in a random direction.
+
+Prey is rewarded for staying alive. Thus, at each moment its health rises by a certain amount. If it reached a certain threshold, the prey reproduces.
+
+Predators are rewarded for hunting. They lose health at each moment, unless they encounter prey. In that case, the predator heals by consuming the prey and a new predator is born.
+
+After some time, illness starts spreading. Prey becomes orange and predators become purple. Eventually, all creatures perish into nothing and the simulation ends. 
+
+The user can at any moment start a new simulation by pressing **N** or quit by pressing **Q**.
+
+## Getting it to run
+
+## Prerequisites
+
+* [SFML](https://www.sfml-dev.org/) - graphics and event handling
+
+### Install on Debian / Ubuntu
+
+`sudo apt-get install libsfml-dev`
+
+### Install on Arch
+
+`sudo pacman -S sfml`
+
+## Installing 
+
+``` bash
+# install
+make
+
+# run
+make run
+
+#clean-up
+make clean
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
