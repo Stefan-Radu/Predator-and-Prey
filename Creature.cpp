@@ -17,6 +17,11 @@ int Creature::getCount() {
   return Creature::howMany - 2;
 }
 
+void Creature::reset(bool isIll) {
+  ill = isIll;
+  health = MAX_HEALTH;
+}
+
 bool Creature::isDead() const {
   return health <= 0;
 }

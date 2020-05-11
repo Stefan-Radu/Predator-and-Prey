@@ -14,6 +14,8 @@ public:
 
   static int getCount();
 
+  void reset(bool);
+
   void updateHealth(int);
   void makeIll();
   int getHealth() const;

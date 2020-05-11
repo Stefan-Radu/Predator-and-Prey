@@ -22,7 +22,7 @@ public:
     T *object = objects.front();
     objects.pop_front();
 
-    object->reset(refference);
+    object->reset(refference.isIll());
     return object;
   }
 
