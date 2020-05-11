@@ -28,14 +28,6 @@ private:
   // private constructor to avoid instantiation
   Game();
 
-  struct Cell {
-    Cell();
-    CreatureType type;
-    Creature *creature;
-    Cell& operator = (const Cell&);
-    ~Cell();
-  };
-
   bool endGame;
 
   sf::RenderWindow window;
@@ -60,13 +52,12 @@ private:
   static constexpr double END_GAME_THRESHOLD = 15000.0;
   static constexpr double NO_CREATURES_THRESOLD = 1500;
 
-  Prey* defaultPrey;
-  Predator* defaultPredator;
+  Prey *defaultPrey;
+  Predator *defaultPredator;
 
   static int gameCount;
-  static Cell nullCell;
 
-  Cell *world, *worldAux;
+  Creature **world, **worldAux;
   sf::Vertex *pixels;
 
   int userInput(const char*) const;
@@ -80,10 +71,11 @@ private:
 
   int getNextCellIndex(const int&) const;
 
-  void addCreature(Cell&, CreatureType);
-  void removeCreature(Cell&);
-  bool notSurvive(const int&);
-  void chanceMakeIll(const int&);
+  CreatureType getCreatureType(Creature*&) const;
+  void addCreature(Creature*&, CreatureType);
+  void removeCreature(Creature*&);
+  bool notSurvive(Creature*&);
+  void chanceMakeIll(Creature*&);
   void interact(const int&, const int&);
   void transferLife(const int&, const int&);
 
