@@ -30,6 +30,13 @@ public:
     objects.push_back(object);
   }
 
+  ~ObjectPool() {
+    for (auto &p : objects) {
+      delete p;
+    }
+    objects.clear();
+  }
+
 private:
 
   ObjectPool() {};
