@@ -9,9 +9,10 @@ enum class CreatureType { PREDATOR, PREY, NOTHING };
 class Creature {
 public:
 
-  Creature(int, bool, int, int);
+  Creature(CreatureType, int, bool, int, int);
   virtual ~Creature();
 
+  const CreatureType type; 
   static int getCount();
 
   void reset(bool);

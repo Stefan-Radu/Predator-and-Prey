@@ -8,8 +8,8 @@ int mutate(int k) {
 
 int Creature::howMany = 0;
 
-Creature::Creature(int health, bool ill, int maxHealth, int healthTick):
-  health(health), ill(ill), MAX_HEALTH(maxHealth), HEALTH_TIC(mutate(healthTick)) {
+Creature::Creature(CreatureType type, int health, bool ill, int maxHealth, int healthTick):
+  type(type), health(health), ill(ill), MAX_HEALTH(maxHealth), HEALTH_TIC(mutate(healthTick)) {
   ++ howMany;
 }  
 
@@ -62,10 +62,10 @@ std::ostream& operator << (std::ostream &os, Creature &c) {
 //==================================================  Prey  ==================================================
 
 Prey::Prey(int maxHealth, int healthTick):
-  Creature(1, false, maxHealth, healthTick) {}
+  Creature(CreatureType::PREY, 1, false, maxHealth, healthTick) {}
 
 Prey::Prey(const Prey& prey):
-  Creature(prey.health, prey.ill, prey.MAX_HEALTH, prey.HEALTH_TIC) {}
+  Creature(CreatureType::PREY, prey.health, prey.ill, prey.MAX_HEALTH, prey.HEALTH_TIC) {}
 
 void Prey::updateHealth() {
   health += (-2 * (int)ill + 1) * HEALTH_TIC;
@@ -81,10 +81,10 @@ void Prey::resetHealth() {
 //==================================================  Predator  ==================================================
 
 Predator::Predator(int maxHealth, int healthTick):
-  Creature(maxHealth, false, maxHealth, healthTick) {}
+  Creature(CreatureType::PREDATOR, maxHealth, false, maxHealth, healthTick) {}
 
 Predator::Predator(const Predator& predator):
-  Creature(predator.health, predator.ill, predator.MAX_HEALTH, predator.HEALTH_TIC) {}
+  Creature(CreatureType::PREDATOR, predator.health, predator.ill, predator.MAX_HEALTH, predator.HEALTH_TIC) {}
 
 void Predator::updateHealth() {
   health -= HEALTH_TIC;
