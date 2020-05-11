@@ -1,6 +1,8 @@
 #pragma once
 
 #include <list>
+#include <iostream>
+#include "Creature.hpp"
 
 template < typename T >
 class ObjectPool {
@@ -9,7 +11,7 @@ public:
   ObjectPool(const ObjectPool&) = delete;
   ObjectPool& operator = (const ObjectPool&) = delete;
 
-  ObjectPool& getInstance() {
+  static ObjectPool& getInstance() {
     static ObjectPool instance = ObjectPool();
     return instance;
   }

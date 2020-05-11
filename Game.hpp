@@ -5,6 +5,7 @@
 
 #include "Vec2D.hpp"
 #include "Creature.hpp"
+#include "ObjectPool.hpp"
 
 class Game {
 public:

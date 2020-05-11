@@ -104,6 +104,7 @@ void Game::initEverything() {
 
   initWorld();
   initPixels();
+
   generateCreatures();
 
   window.create(sf::VideoMode(WIDTH << 1, HEIGHT << 1), "Predator & Prey");
@@ -129,16 +130,16 @@ void Game::generateCreatures() {
   for (int cell = 0; cell < WIDTH * HEIGHT; ++ cell ) {
 
     if (world[cell]) {
-      delete world[cell];
+      removeCreature(world[cell]);
       world[cell] = nullptr;
     }
 
     int chance = rand() % CHANCE_MODULO;
     if (chance < PREY_PERCENTAGE) {
-      world[cell] = new Prey(*defaultPrey);
+      world[cell] = ObjectPool < Prey >::getInstance().getResource(*defaultPrey);
     }
     else if (chance < PREY_PERCENTAGE + PREDATOR_PERCENTAGE) {
-      world[cell] = new Predator(*defaultPredator);
+      world[cell] = ObjectPool < Predator >::getInstance().getResource(*defaultPredator);
     }
   }
 }
@@ -150,20 +151,29 @@ CreatureType Game::getCreatureType(Creature *& creature) const {
 }
 
 void Game::removeCreature(Creature *&creature) {
-  delete creature;
+  switch(getCreatureType(creature)) {
+    case CreatureType::PREY:
+      ObjectPool < Prey >::getInstance().returnResource(static_cast < Prey* > (creature));
+      break;
+    case CreatureType::PREDATOR:
+      ObjectPool < Predator >::getInstance().returnResource(static_cast < Predator* > (creature));
+      break;
+    case CreatureType::NOTHING:
+      break;
+  }
   creature = nullptr;
 }
 
 void Game::addCreature(Creature *&creature, CreatureType type) {
   switch (type) {
     case CreatureType::PREY:
-      creature = new Prey(*defaultPrey);
+      creature = ObjectPool < Prey >::getInstance().getResource(*defaultPrey);
       break;
     case CreatureType::PREDATOR:
-      creature = new Predator(*defaultPredator);
+      creature = ObjectPool < Predator >::getInstance().getResource(*defaultPredator);
       break;
     case CreatureType::NOTHING:
-      std::cerr << "Cannot create NOTHING";
+      std::cerr << "Cannot create NOTHING\n";
       break;
   }
 }
@@ -250,6 +260,8 @@ void Game::updateState() {
   for (int cellIndex = 0; cellIndex < WIDTH * HEIGHT; ++ cellIndex) {
     updateCell(cellIndex);
   }
+
+  std::cerr << Creature::getCount() << '\n';
   std::swap(worldAux, world);
 }
 
@@ -383,8 +395,8 @@ Game::~Game() {
   delete defaultPredator;
 
   for (int i = 0; i < WIDTH * HEIGHT; ++ i) {
-    delete world[i];
-    delete worldAux[i];
+    removeCreature(world[i]);
+    removeCreature(worldAux[i]);
   }
   delete[] world;
   delete[] worldAux;
