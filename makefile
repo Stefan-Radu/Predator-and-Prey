@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic -Wfatal-errors
 LIBS = -lsfml-window -lsfml-graphics -lsfml-system
-OBJECTS = main.o Game.o Creature.o Vec2D.o ObjectPool.o
+OBJECTS = main.o Game.o Creature.o Vec2D.o
 
 main: $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o main $(OBJECTS) $(LIBS)
@@ -15,14 +15,12 @@ Game.o: Game.cpp Game.hpp Vec2D.hpp Creature.hpp ObjectPool.hpp
 Creature.o: Creature.cpp Creature.hpp
 	$(CXX) $(CXXFLAGS) -c Creature.cpp
 
-ObjectPool.o: ObjectPool.hpp
-	$(CXX) $(CXXFLAGS) -c ObjectPool.hpp
-
 Vec2D.o: Vec2D.cpp Vec2D.hpp
 	$(CXX) $(CXXFLAGS) -c Vec2D.cpp
 
 clean:
 	rm *.o
+	rm *.gch
 
 run:
 	./main
