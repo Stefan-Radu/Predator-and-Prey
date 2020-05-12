@@ -153,11 +153,11 @@ CreatureType Game::getCreatureType(Creature *& creature) const {
 
 void Game::removeCreature(Creature *&creature) {
   switch(getCreatureType(creature)) {
-    case CreatureType::PREY:
-      ObjectPool < Prey >::getInstance().returnResource(static_cast < Prey* > (creature));
-      break;
     case CreatureType::PREDATOR:
       ObjectPool < Predator >::getInstance().returnResource(static_cast < Predator* > (creature));
+      break;
+    case CreatureType::PREY:
+      ObjectPool < Prey >::getInstance().returnResource(static_cast < Prey* > (creature));
       break;
     case CreatureType::NOTHING:
       break;
@@ -322,6 +322,8 @@ void Game::run() {
   while (window.isOpen()) {
 
     auto currentTime = std::chrono::high_resolution_clock::now();
+    auto diff = std::chrono::duration_cast < std::chrono::milliseconds > (currentTime - lastTime).count();
+    std::cerr << 1000.0f / diff << '\n';
     elapsedTime += std::chrono::duration_cast < std::chrono::milliseconds > (currentTime - lastTime).count();
     lastTime = currentTime;
 
