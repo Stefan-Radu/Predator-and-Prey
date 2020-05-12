@@ -15,8 +15,6 @@ public:
   const CreatureType type; 
   static int getCount();
 
-  void reset(bool);
-
   void updateHealth(int);
   void makeIll();
   int getHealth() const;
@@ -24,6 +22,7 @@ public:
   bool isIll() const;
   bool canReproduce() const;
 
+  virtual void reset(bool) = 0;
   virtual void updateHealth() = 0;
   virtual void resetHealth() = 0;
 
@@ -46,6 +45,7 @@ public:
   Prey(int, int);
   Prey(const Prey&);
 
+  void reset(bool) override;
   void updateHealth() override;
   void resetHealth() override;
 };
@@ -56,6 +56,7 @@ public:
   Predator(int, int);
   Predator(const Predator&);
 
+  void reset(bool) override;
   void updateHealth() override;
   void resetHealth() override;
 };

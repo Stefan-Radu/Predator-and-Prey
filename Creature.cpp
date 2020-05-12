@@ -17,11 +17,6 @@ int Creature::getCount() {
   return Creature::howMany - 2;
 }
 
-void Creature::reset(bool isIll) {
-  ill = isIll;
-  health = MAX_HEALTH;
-}
-
 bool Creature::isDead() const {
   return health <= 0;
 }
@@ -67,6 +62,11 @@ Prey::Prey(int maxHealth, int healthTick):
 Prey::Prey(const Prey& prey):
   Creature(CreatureType::PREY, prey.health, prey.ill, prey.MAX_HEALTH, prey.HEALTH_TIC) {}
 
+void Prey::reset(bool isIll) {
+  ill = isIll;
+  health = 1;
+}
+
 void Prey::updateHealth() {
   health += (-2 * (int)ill + 1) * HEALTH_TIC;
   if (health > MAX_HEALTH) {
@@ -85,6 +85,11 @@ Predator::Predator(int maxHealth, int healthTick):
 
 Predator::Predator(const Predator& predator):
   Creature(CreatureType::PREDATOR, predator.health, predator.ill, predator.MAX_HEALTH, predator.HEALTH_TIC) {}
+
+void Predator::reset(bool isIll) {
+  ill = isIll;
+  health = MAX_HEALTH;
+}
 
 void Predator::updateHealth() {
   health -= HEALTH_TIC;

@@ -260,8 +260,6 @@ void Game::updateState() {
   for (int cellIndex = 0; cellIndex < WIDTH * HEIGHT; ++ cellIndex) {
     updateCell(cellIndex);
   }
-
-  std::cerr << Creature::getCount() << '\n';
   std::swap(worldAux, world);
 }
 
