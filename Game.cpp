@@ -322,8 +322,6 @@ void Game::run() {
   while (window.isOpen()) {
 
     auto currentTime = std::chrono::high_resolution_clock::now();
-    auto diff = std::chrono::duration_cast < std::chrono::milliseconds > (currentTime - lastTime).count();
-    std::cerr << 1000.0f / diff << '\n';
     elapsedTime += std::chrono::duration_cast < std::chrono::milliseconds > (currentTime - lastTime).count();
     lastTime = currentTime;
 
