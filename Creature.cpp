@@ -8,8 +8,8 @@ int mutate(int k) {
 
 int Creature::howMany = 0;
 
-Creature::Creature(CreatureType type, bool ill, int health, int maxHealth, int healthTick):
-  type(type), ill(ill), health(health), maxHealth(maxHealth), healthTick(mutate(healthTick)) {
+Creature::Creature(CreatureType type, int health, int maxHealth, int healthTick, bool ill):
+  type(type), health(health), maxHealth(maxHealth), healthTick(mutate(healthTick)), ill(ill) {
   ++ howMany;
 }  
 
@@ -57,19 +57,19 @@ std::ostream& operator << (std::ostream &os, Creature &c) {
 //==================================================  Prey  ==================================================
 
 Prey::Prey():
-  Creature(CreatureType::PREY, defaultInstance->ill, 1, defaultInstance->maxHealth,
-      defaultInstance->healthTick) {}
+  Creature(CreatureType::PREY, 1, defaultInstance->maxHealth,
+      defaultInstance->healthTick, defaultInstance->ill) {}
 
 Prey::Prey(int maxHealth, int healthTick):
-  Creature(CreatureType::PREY, false, 1, maxHealth, healthTick) {}
+  Creature(CreatureType::PREY, 1, maxHealth, healthTick, false) {}
 
 Prey* Prey::defaultInstance = nullptr;
 
 void Prey::reset() {
-  ill = defaultInstance->ill;
   health = 1;
   maxHealth = defaultInstance->maxHealth;
   healthTick = defaultInstance->healthTick;
+  ill = defaultInstance->ill;
 }
 
 void Prey::updateHealth() {
@@ -86,19 +86,19 @@ void Prey::resetHealth() {
 //==================================================  Predator  ==================================================
 
 Predator::Predator():
-  Creature(CreatureType::PREDATOR, defaultInstance->ill, defaultInstance->maxHealth, 
-      defaultInstance->maxHealth, defaultInstance->healthTick) {}
+  Creature(CreatureType::PREDATOR, defaultInstance->maxHealth, defaultInstance->maxHealth,
+      defaultInstance->healthTick, defaultInstance->ill) {}
 
 Predator::Predator(int maxHealth, int healthTick):
-  Creature(CreatureType::PREDATOR, false, maxHealth, maxHealth, healthTick) {}
+  Creature(CreatureType::PREDATOR, maxHealth, maxHealth, healthTick, false) {}
 
 Predator* Predator::defaultInstance = nullptr;
 
 void Predator::reset() {
-  ill = defaultInstance->ill;
   health = defaultInstance->maxHealth;
   maxHealth = defaultInstance->maxHealth;
   healthTick = defaultInstance->healthTick;
+  ill = defaultInstance->ill;
 }
 
 void Predator::updateHealth() {

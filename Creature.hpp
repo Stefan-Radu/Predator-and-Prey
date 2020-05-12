@@ -9,7 +9,7 @@ enum class CreatureType { PREDATOR, PREY, NOTHING };
 class Creature {
 public:
 
-  Creature(CreatureType, bool, int, int, int);
+  Creature(CreatureType, int, int, int, bool);
   virtual ~Creature();
 
   const CreatureType type; 
@@ -28,8 +28,8 @@ public:
 
 protected:
 
-  bool ill;
   int health, maxHealth, healthTick;
+  bool ill;
 
   friend std::ostream& operator << (std::ostream&, Creature&);
 
