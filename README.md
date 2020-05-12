@@ -34,6 +34,10 @@ The user can at any moment start a new simulation by pressing **N** or quit by p
 
 `sudo pacman -S sfml`
 
+## Downloading
+
+* [Download v2.0.0](https://github.com/Stefan-Radu/Predator-and-Prey/releases/tag/v2.0.0)
+
 ## Installing 
 
 ``` bash
