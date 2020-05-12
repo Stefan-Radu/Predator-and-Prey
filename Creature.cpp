@@ -93,7 +93,7 @@ Predator::Predator():
       defaultInstance->maxHealth, defaultInstance->healthTick) {}
 
 Predator::Predator(int maxHealth, int healthTick):
-  Creature(CreatureType::PREDATOR, maxHealth, false, maxHealth, healthTick) {}
+  Creature(CreatureType::PREDATOR, false, maxHealth, maxHealth, healthTick) {}
 
 Predator::Predator(const Predator& predator):
   Creature(CreatureType::PREDATOR, predator.ill, predator.health, predator.maxHealth, predator.healthTick) {}
