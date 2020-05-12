@@ -15,10 +15,8 @@ int Game::gameCount = 1;
 Game::Game():
   WIDTH(userInput("Provide window width: ")),
   HEIGHT(userInput("Provide window height: ")),
-  PREY_PERCENTAGE(rand() % MAX_CREATURE_PERCENTAGE + 1),
-  PREDATOR_PERCENTAGE(rand() % MAX_CREATURE_PERCENTAGE + 1),
-  defaultPrey(new Prey(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1)),
-  defaultPredator(new Predator(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1)) {
+  preyPercentage(rand() % MAX_CREATURE_PERCENTAGE + 1),
+  predatorPercentage(rand() % MAX_CREATURE_PERCENTAGE + 1) {
 
   srand(time(0));
   initEverything();
@@ -70,22 +68,22 @@ void Game::logDetails() const {
   std::system("clear");
 
   std::cerr << "Initialized game no. " << gameCount << " with:\n";
-  std::cerr << "Prey percentage: " << PREY_PERCENTAGE << " / " << Game::CHANCE_MODULO << '\n';
-  std::cerr << "Predator percentage: " << PREDATOR_PERCENTAGE << " / " << Game::CHANCE_MODULO << '\n';
-  std::cerr << "Prey:\n" << *defaultPrey;
-  std::cerr << "Predator:\n" << *defaultPredator;
+  std::cerr << "Prey percentage: " << preyPercentage << " / " << Game::CHANCE_MODULO << '\n';
+  std::cerr << "Predator percentage: " << predatorPercentage << " / " << Game::CHANCE_MODULO << '\n';
+  std::cerr << "Prey:\n" << *Prey::defaultInstance;
+  std::cerr << "Predator:\n" << *Predator::defaultInstance;
 }
 
 void Game::resetGame() {
 
-  PREY_PERCENTAGE = rand() % MAX_CREATURE_PERCENTAGE + 1;
-  PREDATOR_PERCENTAGE = rand() % MAX_CREATURE_PERCENTAGE + 1;
+  preyPercentage = rand() % MAX_CREATURE_PERCENTAGE + 1;
+  predatorPercentage = rand() % MAX_CREATURE_PERCENTAGE + 1;
 
-  delete defaultPrey;
-  defaultPrey = new Prey(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
+  delete Prey::defaultInstance;
+  Prey::defaultInstance = new Prey(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
 
-  delete defaultPredator;
-  defaultPredator = new Predator(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
+  delete Predator::defaultInstance;
+  Predator::defaultInstance = new Predator(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
 
   ++ gameCount;
   endGame = false;
@@ -101,6 +99,10 @@ void Game::initEverything() {
 
   endGame = false;
   elapsedTime = 0.0;
+
+  Prey::defaultInstance = new Prey(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
+
+  Predator::defaultInstance = new Predator(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
 
   initWorld();
   initPixels();
@@ -135,11 +137,11 @@ void Game::generateCreatures() {
     }
 
     int chance = rand() % CHANCE_MODULO;
-    if (chance < PREY_PERCENTAGE) {
-      world[cell] = ObjectPool < Prey >::getInstance().getResource(*defaultPrey);
+    if (chance < preyPercentage) {
+      world[cell] = ObjectPool < Prey >::getInstance().getResource();
     }
-    else if (chance < PREY_PERCENTAGE + PREDATOR_PERCENTAGE) {
-      world[cell] = ObjectPool < Predator >::getInstance().getResource(*defaultPredator);
+    else if (chance < preyPercentage + predatorPercentage) {
+      world[cell] = ObjectPool < Predator >::getInstance().getResource();
     }
   }
 }
@@ -167,10 +169,10 @@ void Game::removeCreature(Creature *&creature) {
 void Game::addCreature(Creature *&creature, CreatureType type) {
   switch (type) {
     case CreatureType::PREY:
-      creature = ObjectPool < Prey >::getInstance().getResource(*defaultPrey);
+      creature = ObjectPool < Prey >::getInstance().getResource();
       break;
     case CreatureType::PREDATOR:
-      creature = ObjectPool < Predator >::getInstance().getResource(*defaultPredator);
+      creature = ObjectPool < Predator >::getInstance().getResource();
       break;
     case CreatureType::NOTHING:
       std::cerr << "Cannot create NOTHING\n";
@@ -325,8 +327,8 @@ void Game::run() {
     lastTime = currentTime;
 
     if (not endGame and elapsedTime > END_GAME_THRESHOLD) {
-      defaultPrey->makeIll();
-      defaultPredator->makeIll();
+      Prey::defaultInstance->makeIll();
+      Predator::defaultInstance->makeIll();
       endGame = true;
     }
 
@@ -385,12 +387,12 @@ Vec2D Game::wrap(Vec2D pos) const {
 Game::~Game() {
 
   elapsedTime = 0;
-  PREY_PERCENTAGE = 0;
+  preyPercentage = 0;
   gameCount = endGame = 0;
-  PREDATOR_PERCENTAGE = 0;
+  predatorPercentage = 0;
 
-  delete defaultPrey;
-  delete defaultPredator;
+  delete Prey::defaultInstance;
+  delete Predator::defaultInstance;
 
   for (int i = 0; i < WIDTH * HEIGHT; ++ i) {
     removeCreature(world[i]);

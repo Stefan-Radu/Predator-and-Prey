@@ -40,7 +40,7 @@ private:
   static const sf::Color CLEAR;
 
   const int WIDTH, HEIGHT;
-  int PREY_PERCENTAGE, PREDATOR_PERCENTAGE;
+  int preyPercentage, predatorPercentage;
 
   static const int CHANCE_MODULO = 100;
   static const int MAX_CREATURE_PERCENTAGE = 50;
@@ -52,9 +52,6 @@ private:
   double elapsedTime;
   static constexpr double END_GAME_THRESHOLD = 15000.0;
   static constexpr double NO_CREATURES_THRESOLD = 1500;
-
-  Prey *defaultPrey;
-  Predator *defaultPredator;
 
   static int gameCount;
 

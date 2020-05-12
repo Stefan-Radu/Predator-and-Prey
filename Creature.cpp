@@ -8,8 +8,8 @@ int mutate(int k) {
 
 int Creature::howMany = 0;
 
-Creature::Creature(CreatureType type, int health, bool ill, int maxHealth, int healthTick):
-  type(type), health(health), ill(ill), MAX_HEALTH(maxHealth), HEALTH_TIC(mutate(healthTick)) {
+Creature::Creature(CreatureType type, bool ill, int health, int maxHealth, int healthTick):
+  type(type), ill(ill), health(health), maxHealth(maxHealth), healthTick(mutate(healthTick)) {
   ++ howMany;
 }  
 
@@ -26,7 +26,7 @@ bool Creature::isIll() const {
 }
 
 bool Creature::canReproduce() const {
-  return health >= MAX_HEALTH;
+  return health >= maxHealth;
 }
 
 void Creature::makeIll() {
@@ -39,8 +39,8 @@ int Creature::getHealth() const {
 
 void Creature::updateHealth(int toAdd) {
   health += toAdd;
-  if (health > MAX_HEALTH) {
-    health = MAX_HEALTH;
+  if (health > maxHealth) {
+    health = maxHealth;
   }
 }
 
@@ -49,28 +49,36 @@ Creature::~Creature() {
 }
 
 std::ostream& operator << (std::ostream &os, Creature &c) {
-  os << "Maximum health: " << c.MAX_HEALTH <<  '\n';
-  os << "Health tic: " << c.HEALTH_TIC <<  '\n';
+  os << "Maximum health: " << c.maxHealth <<  '\n';
+  os << "Health tic: " << c.healthTick <<  '\n';
   return os;
 }
 
 //==================================================  Prey  ==================================================
 
+Prey::Prey():
+  Creature(CreatureType::PREY, defaultInstance->ill, 1, defaultInstance->maxHealth,
+      defaultInstance->healthTick) {}
+
 Prey::Prey(int maxHealth, int healthTick):
-  Creature(CreatureType::PREY, 1, false, maxHealth, healthTick) {}
+  Creature(CreatureType::PREY, false, 1, maxHealth, healthTick) {}
 
 Prey::Prey(const Prey& prey):
-  Creature(CreatureType::PREY, prey.health, prey.ill, prey.MAX_HEALTH, prey.HEALTH_TIC) {}
+  Creature(CreatureType::PREY, prey.ill, prey.health, prey.maxHealth, prey.healthTick) {}
 
-void Prey::reset(bool isIll) {
-  ill = isIll;
+Prey* Prey::defaultInstance = nullptr;
+
+void Prey::reset() {
+  ill = defaultInstance->ill;
   health = 1;
+  maxHealth = defaultInstance->maxHealth;
+  healthTick = defaultInstance->healthTick;
 }
 
 void Prey::updateHealth() {
-  health += (-2 * (int)ill + 1) * HEALTH_TIC;
-  if (health > MAX_HEALTH) {
-    health = MAX_HEALTH;
+  health += (-2 * (int)ill + 1) * healthTick;
+  if (health > maxHealth) {
+    health = maxHealth;
   }
 }
 
@@ -80,21 +88,29 @@ void Prey::resetHealth() {
 
 //==================================================  Predator  ==================================================
 
+Predator::Predator():
+  Creature(CreatureType::PREDATOR, defaultInstance->ill, defaultInstance->maxHealth, 
+      defaultInstance->maxHealth, defaultInstance->healthTick) {}
+
 Predator::Predator(int maxHealth, int healthTick):
   Creature(CreatureType::PREDATOR, maxHealth, false, maxHealth, healthTick) {}
 
 Predator::Predator(const Predator& predator):
-  Creature(CreatureType::PREDATOR, predator.health, predator.ill, predator.MAX_HEALTH, predator.HEALTH_TIC) {}
+  Creature(CreatureType::PREDATOR, predator.ill, predator.health, predator.maxHealth, predator.healthTick) {}
 
-void Predator::reset(bool isIll) {
-  ill = isIll;
-  health = MAX_HEALTH;
+Predator* Predator::defaultInstance = nullptr;
+
+void Predator::reset() {
+  ill = defaultInstance->ill;
+  health = defaultInstance->maxHealth;
+  maxHealth = defaultInstance->maxHealth;
+  healthTick = defaultInstance->healthTick;
 }
 
 void Predator::updateHealth() {
-  health -= HEALTH_TIC;
+  health -= healthTick;
 }
 
 void Predator::resetHealth() {
-  health = MAX_HEALTH;
+  health = maxHealth;
 }

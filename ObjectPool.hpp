@@ -16,15 +16,15 @@ public:
     return instance;
   }
 
-  T* getResource(const T& refference) {
+  T* getResource() {
     if (objects.empty()) {
-      return new T(refference);
+      return new T();
     }
 
     T *object = objects.front();
     objects.pop_front();
 
-    object->reset(refference.isIll());
+    object->reset();
     return object;
   }
 

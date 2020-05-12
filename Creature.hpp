@@ -9,7 +9,7 @@ enum class CreatureType { PREDATOR, PREY, NOTHING };
 class Creature {
 public:
 
-  Creature(CreatureType, int, bool, int, int);
+  Creature(CreatureType, bool, int, int, int);
   virtual ~Creature();
 
   const CreatureType type; 
@@ -22,16 +22,14 @@ public:
   bool isIll() const;
   bool canReproduce() const;
 
-  virtual void reset(bool) = 0;
+  virtual void reset() = 0;
   virtual void updateHealth() = 0;
   virtual void resetHealth() = 0;
 
 protected:
 
-  int health;
   bool ill;
-  const int MAX_HEALTH;
-  const int HEALTH_TIC;
+  int health, maxHealth, healthTick;
 
   friend std::ostream& operator << (std::ostream&, Creature&);
 
@@ -42,10 +40,13 @@ private:
 class Prey: public Creature {
 public:
 
+  Prey();
   Prey(int, int);
   Prey(const Prey&);
 
-  void reset(bool) override;
+  static Prey* defaultInstance;
+
+  void reset() override;
   void updateHealth() override;
   void resetHealth() override;
 };
@@ -53,10 +54,13 @@ public:
 class Predator: public Creature {
 public:
 
+  Predator();
   Predator(int, int);
   Predator(const Predator&);
 
-  void reset(bool) override;
+  static Predator* defaultInstance;
+
+  void reset() override;
   void updateHealth() override;
   void resetHealth() override;
 };
