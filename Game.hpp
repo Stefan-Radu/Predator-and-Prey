@@ -50,7 +50,7 @@ private:
   static const int NEXT_POS_TRIES_THRESHOLD = 4;
 
   double elapsedTime;
-  static constexpr double END_GAME_THRESHOLD = 15000.0;
+  static constexpr double END_GAME_THRESHOLD = 27000.0;
   static constexpr double NO_CREATURES_THRESOLD = 1500;
 
   static int gameCount;
@@ -60,23 +60,23 @@ private:
 
   int userInput(const char*) const;
   void logDetails() const;
-  void resetGame();
 
   void initWorld();
   void initPixels();
   void generateCreatures();
   void initEverything();
+  void resetGame();
 
   int getNextCellIndex(const int&) const;
 
   CreatureType getCreatureType(Creature*&) const;
+
   void addCreature(Creature*&, CreatureType);
   void removeCreature(Creature*&);
   bool notSurvive(Creature*&);
   void chanceMakeIll(Creature*&);
   void interact(const int&, const int&);
   void transferLife(const int&, const int&);
-
   void updateCell(const int&);
   void updateState();
 

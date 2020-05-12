@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include <iostream>
 #include "Creature.hpp"
 
@@ -21,15 +21,15 @@ public:
       return new T();
     }
 
-    T *object = objects.front();
-    objects.pop_front();
+    T *object = objects.back();
+    objects.pop_back();
 
     object->reset();
     return object;
   }
 
   void returnResource(T *object) {
-    objects.push_back(object);
+    objects.emplace_back(object);
   }
 
   ~ObjectPool() {
@@ -43,5 +43,5 @@ private:
 
   ObjectPool() {};
 
-  std::list < T* > objects;
+  std::vector < T* > objects;
 };
