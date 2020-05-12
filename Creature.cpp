@@ -63,9 +63,6 @@ Prey::Prey():
 Prey::Prey(int maxHealth, int healthTick):
   Creature(CreatureType::PREY, false, 1, maxHealth, healthTick) {}
 
-Prey::Prey(const Prey& prey):
-  Creature(CreatureType::PREY, prey.ill, prey.health, prey.maxHealth, prey.healthTick) {}
-
 Prey* Prey::defaultInstance = nullptr;
 
 void Prey::reset() {
@@ -94,9 +91,6 @@ Predator::Predator():
 
 Predator::Predator(int maxHealth, int healthTick):
   Creature(CreatureType::PREDATOR, false, maxHealth, maxHealth, healthTick) {}
-
-Predator::Predator(const Predator& predator):
-  Creature(CreatureType::PREDATOR, predator.ill, predator.health, predator.maxHealth, predator.healthTick) {}
 
 Predator* Predator::defaultInstance = nullptr;
 

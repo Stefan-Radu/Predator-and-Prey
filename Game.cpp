@@ -101,7 +101,6 @@ void Game::initEverything() {
   elapsedTime = 0.0;
 
   Prey::defaultInstance = new Prey(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
-
   Predator::defaultInstance = new Predator(rand() % MAX_CREATURE_HEALTH + 1, rand() % MAX_CREATURE_HEALTH_TIC + 1);
 
   initWorld();

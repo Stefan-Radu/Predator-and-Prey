@@ -42,7 +42,6 @@ public:
 
   Prey();
   Prey(int, int);
-  Prey(const Prey&);
 
   static Prey* defaultInstance;
 
@@ -56,7 +55,6 @@ public:
 
   Predator();
   Predator(int, int);
-  Predator(const Predator&);
 
   static Predator* defaultInstance;
 
