@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "Creature.hpp"
+#include "Vector.hpp"
 
 template < typename T >
 class ObjectPool {
@@ -12,7 +13,7 @@ public:
   ObjectPool& operator = (const ObjectPool&) = delete;
 
   static ObjectPool& getInstance() {
-    static ObjectPool instance = ObjectPool();
+    static ObjectPool instance;
     return instance;
   }
 
@@ -29,19 +30,18 @@ public:
   }
 
   void returnResource(T *object) {
-    objects.emplace_back(object);
+    objects.push_back(object);
   }
 
   ~ObjectPool() {
     for (auto &p : objects) {
       delete p;
     }
-    objects.clear();
   }
 
 private:
 
   ObjectPool() {};
 
-  std::vector < T* > objects;
+  stef::vector < T* > objects;
 };
