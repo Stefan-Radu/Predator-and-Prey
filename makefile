@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic -Wfatal-errors
+CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic -Wfatal-errors -O3 -pipe
 LIBS = -lsfml-window -lsfml-graphics -lsfml-system
 OBJECTS = main.o Game.o Creature.o Vec2D.o
 
