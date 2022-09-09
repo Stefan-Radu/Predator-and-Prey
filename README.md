@@ -1,13 +1,13 @@
 # Predator & Prey Cellular Automaton
 
-Simulating the life of *predators* and *prey*.
+Celular automaton, simulating the life of *predators* and *prey* organisms.
 
 ## About
 
 The goal of this automaton is to simulate a world inhabited by two types of creatures predators (displayed with red) and prey (displayed with green).
 
 <p align="center">
-  <img src="./screeshots/ss.gif">
+  <img src="./screeshots/demo.gif">
 </p>
 
 At each moment, every creature moves in a random direction.
